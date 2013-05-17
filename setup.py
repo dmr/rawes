@@ -52,5 +52,6 @@ setup(name='rawes',
       zip_safe=False,
       classifiers=classifiers,
       install_requires=install_requires,
-      packages=find_packages()
+      packages=find_packages(),
+      test_suite='tests'
       )
