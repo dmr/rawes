@@ -39,6 +39,10 @@ logger = logging.getLogger("rawes.tests")
 logger.addHandler(soh)
 
 
+if int(sys.version[0]) > 2:
+    config.HTTP_ONLY = True
+
+
 class TestElasticCore(unittest.TestCase):
 
     @classmethod
