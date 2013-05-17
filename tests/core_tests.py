@@ -18,16 +18,16 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import rawes
-from rawes.elastic_exception import ElasticException
-from tests import test_encoder
 import unittest
-from tests import config
 import json
+import time
 from datetime import datetime
 from pytz import timezone
-import time
+
+import rawes
 from rawes.elastic_exception import ElasticException
+
+from tests import test_encoder, config
 
 import logging
 log_level = logging.ERROR
@@ -83,13 +83,12 @@ class TestElasticCore(unittest.TestCase):
             es_thrift_short_timeout = rawes.Elastic(url=self.thrift_url,timeout=0.0001)
             self._test_timeout(es_short_timeout=es_thrift_short_timeout)
 
-
     def test_empty_constructor(self):
         es = rawes.Elastic()
         self.assertEqual(es.url.scheme, "http")
         self.assertEqual(es.url.hostname, "localhost")
         self.assertEqual(es.url.port, 9200)
-    
+
     def test_https(self):
         es = rawes.Elastic("https://localhost")
         self.assertEqual(es.url.scheme, "https")
@@ -99,7 +98,7 @@ class TestElasticCore(unittest.TestCase):
         # If the index does not exist, test creating it and deleting it
         try:
             index_status_result = es.get('%s/_status' % config.ES_INDEX)
-        except ElasticException: 
+        except ElasticException:
             create_index_result = es.put(config.ES_INDEX)
 
         # Test deleting the index
